@@ -1,0 +1,90 @@
+
+ .dijitTooltip {
+	/* the outermost dom node, holding the connector and container */
+	background: transparent;	/* make the area on the sides of the arrow transparent */
+    position: absolute;
+}
+
+.dijitTooltip.bottom {
+	/* leave room for arrow above content */
+	padding-top: 13px;
+}
+
+.dijitTooltip.top {
+	/* leave room for arrow below content */
+	padding-bottom: 13px;
+}
+
+ .dijitTooltipContainer {
+	/*
+		The part with the text.
+	*/
+	background: #ffffff url("images/popupMenuBg.gif") repeat-x bottom left;
+	border: 1px solid #7eabcd;
+	padding: 0.45em;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 5px 10px #adadad;
+    box-shadow: 0 5px 10px #adadad;
+}
+
+ .dijitTooltipConnector {
+	/* the arrow piece */
+	border:0;
+	z-index: 2;
+     position: absolute;
+}
+ .dijitTooltipABRight .dijitTooltipConnector {
+	/* above or below tooltip, but the arrow appears on the right,
+		and the right edges of target and tooltip are aligned rather than the left */
+	left: auto !important;
+	right: 3px;
+}
+
+ .dijitTooltip.bottom .dijitTooltipConnector {
+	/* the arrow piece for tooltips below an element */
+	top: 0;
+	left: 50%;
+     margin-left: -8px;
+	background:url("images/tooltipConnectorUp.png") no-repeat top left;
+	width:16px;
+	height:14px;
+}
+
+
+ .dijitTooltip.top .dijitTooltipConnector {
+	/* the arrow piece for tooltips above an element */
+	bottom: 0;
+	left: 50%;
+    margin-left: -8px;
+	background:url("images/tooltipConnectorDown.png") no-repeat top left;
+	width:16px;
+	height:14px;
+}
+
+ .dijitTooltip.left {
+	padding-right: 14px;
+}
+ .dijitTooltip.left .dijitTooltipConnector {
+	/* the arrow piece for tooltips to the left of an element, bottom borders aligned */
+	top: 50%;
+    right: 0;
+    margin-top: -7px;
+	background:url("images/tooltipConnectorRight.png") no-repeat top left;
+	width:16px;
+	height:14px;
+}
+
+ .dijitTooltip.right {
+	padding-left: 14px;
+}
+ .dijitTooltip.right .dijitTooltipConnector {
+	/* the arrow piece for tooltips to the right of an element, bottom borders aligned */
+	left: 0;
+    top: 50%;
+    margin-top: -7px;
+	background:url("images/tooltipConnectorLeft.png") no-repeat top left;
+	width:16px;
+	height:14px;
+}

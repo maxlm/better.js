@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <style type="text/css">
+        <!--
+        .code {color: #ffffff; background-color: #001d1d; font-family: monospace}
+        pre.code {color: #ffffff !important; background-color: #001d1d; font-family: monospace; font-size: 14px}
+        table {color: #808080; font-family: monospace}
+        .tag {color: #83c5ff}
+        .ST1 {color: #fa8968}
+        .ST2 {color: #ffc800}
+        .argument {color: #ddb26b}
+        .ST0 {color: #000000; font-family: monospace; font-size: 12}
+        .value {color: #76ba53}
+        .IDENTIFIER {color: #83c5ff}
+        .FLOAT_LITERAL {color: #1793f0}
+.LINE_COMMENT {color: #616161}
+.block-search {background-color: #404040}
+.ST0 {color: #000000; font-family: monospace; font-size: 11}
+.ST6 {color: #1793f0; background-color: #1c1c1c}
+.ST7 {color: #000000; font-family: monospace; font-size: 11} 
+.STRING_LITERAL {color: #76ba53}
+.ST8 {color: #94a4b7; font-family: monospace; font-weight: bold}
+.keyword {color: #ffc800} 
+        -->
+        </style>
+
+        <link href="../css/main.css" rel="stylesheet"/>
+        <link href="../js/better/themes/ui/jquery.ui.all.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap-responsive.css" rel="stylesheet" />
+        <link href="../js/better/themes/dijit/tooltip.css" rel="stylesheet" />
+        <title>jQuery+RequireJS = Love</title>
+        <!-- This is a special version of jQuery with RequireJS built-in -->
+        <script type="text/javascript">
+            require = {
+                baseUrl: '../js/',
+                packages: [{
+                        name: 'better',
+                        location: 'better',
+                        main: 'better'
+                }]
+            }
+          </script>
+          
+        <script type="text/javascript" src="../js/require-jquery.js"></script>
+        
+
+           <style>
+               #pane{
+                   height: 200px; width: 300px; border: 1px dashed gray;
+                   margin-left: 30px;
+                   margin-top: 50px;
+                   padding: 20px;
+               }
+               p {
+                   text-align: justify !important;
+               }
+
+           </style>
+    </head>
+    <body>
+        <div class="container">
+                      <div class="page-header">
+                      <h1>
+                         Сменные шаблоны виджетов
+                          <small>
+                              На примере better.js
+                          </small>
+                      </h1>
+            </div>
+                 <div class="row">
+
+                <div class="span3 columns">
+                    <h3>
+                       Смена шкурок
+                    </h3>
+                    <p>
+                        Зачастую, стандартные виджеты должны выглядеть нестандартно.
+                        Мы получаем дизайн/верстку, и пытаемся натянуть новую шкурку на стандартный виджет
+                    </p>
+                    <p>
+                        Вынесение верстки виджета в отдельный шаблон позволяет нам легко подменять верстку
+                    </p>
+                    <p>
+                        <b>Плюсы подхода: </b>
+                        <ul>
+                            <li>
+                                Правкой верстки может заниматься верстальщик/дизайнер
+                            </li>
+                            <li>
+                                Имеем легко заменяемый внешний вид
+                            </li>
+                        </ul>
+
+                    </p>
+
+                </div>
+                <div class="span9 columns">
+                    <h2>
+                        Смена шкурок в действии
+                    </h2>
+                    <div class="well">
+                        <a id="ui-dialog" class="btn">
+                            jQueryUI modal skin
+                        </a>
+                        <a id="twitter-dialog" class="btn">
+                            Twitter Bootstrap modal skin
+                        </a>
+                        <a id="tools-dialog" class="btn">
+                            jQuery Tools modal skin
+                        </a>
+                    </div>
+                     <script>
+                        var baseUrl = 'text!better/templates/dialog/';
+                        require(['better/Dialog', baseUrl+ 'twitter.html', baseUrl + 'jquery-ui.html',baseUrl + 'flowplayer.html'],
+                                function(Dialog,twitterTpl,uiTpl,flowplayerTpl){
+                                    var dialogs = [];
+                                    dialogs.push(new Dialog(
+                                            {
+                                                title: 'Twitter Bootstrap Skin',
+                                                template: twitterTpl
+                                            },
+                                            '#twitter-dialog-sample'
+                                    ))
+                                    dialogs.push(new Dialog(
+                                            {
+                                                title: 'jquery UI Skin',
+                                                template: uiTpl
+                                            },
+                                            '#ui-dialog-sample'
+                                    ))
+                                    dialogs.push(new Dialog(
+                                            {
+                                                title: 'Jquery Tools Bootstrap Skin',
+                                                template: flowplayerTpl
+                                            },
+                                            '#tools-dialog-sample'
+                                    ))
+                                    var closeAllDialogs = function(){
+                                        $.each(dialogs,function(idx,dialog){
+                                            dialog.hide()
+                                        })
+                                    }
+                                    $('#ui-dialog').click(function(){
+                                        closeAllDialogs()
+                                        better.Widget.byId('ui-dialog-sample').show();
+                                    })
+                                    $('#twitter-dialog').click(function(){
+                                        closeAllDialogs()
+                                        better.Widget.byId('twitter-dialog-sample').show();
+                                     })
+                                    $('#tools-dialog').click(function(){
+                                        closeAllDialogs()
+                                        better.Widget.byId('tools-dialog-sample').show();
+                                     })
+
+                            })
+                    </script>
+                    
+                    <div class="well">
+                        <a id="dijit-tooltip" class="btn">
+                            Hover me! Dijit tooltip (Tundra theme)
+                        </a>
+                        <a id="twitter-tooltip" class="btn">
+                           Hover me!  Twitter Bootstrap tooltip
+                        </a>
+                    </div>
+                    
+                    <div id="dijit-tooltip-sample" style="display: none;">
+                        I'm better.Tooltip with Dijit.Tooltip skin 
+                    </div>
+                    
+                    <div id="twitter-tooltip-sample" style="display: none;">
+                        I'm better.Tooltip with Twitter tooltip skin 
+                    </div>
+                    
+                    <script>
+                            (function(){
+                                 var baseUrl = 'text!better/templates/tooltip/';
+                                 require(['better/Tooltip',baseUrl + 'twitter.html', baseUrl+ 'dijit.html'], function(Tooltip,twitterTpl,dijitTpl){
+                                     var dijitTooltip = new Tooltip({
+                                         template: dijitTpl
+                                     }, '#dijit-tooltip-sample')
+                                     
+                                     var twitterTooltip = new Tooltip({
+                                         template: twitterTpl
+                                     }, '#twitter-tooltip-sample')
+                                     
+                                     $('#dijit-tooltip').on('mouseover', function(){
+                                         dijitTooltip.show("I'm better.Tooltip with Dijit.Tooltip skin ",this)
+                                     }).on('mouseout', function(){
+                                         setTimeout(function(){
+                                             dijitTooltip.hide()
+                                         }, 300)
+                                                                          
+                                     $('#twitter-tooltip').on('mouseover', function(){
+                                         twitterTooltip.show("I'm better.Tooltip with Twitter tooltip skin ",this)
+                                     }).on('mouseout', function(){
+                                         setTimeout(function(){
+                                             twitterTooltip.hide()
+                                         }, 300)
+                                     })
+                                         
+                                     })
+                                 }) 
+                            })()
+                                
+                           </script>
+                           
+                           <h2> Меняем Шкурки <small> в better.js </small> </h2>
+                           <ol>
+                               <li>
+                                      Загружаем шаблон и виджет     
+                               </li>
+                               <li>
+                                      Передаем подгруженный шаблон в виджет в качестве параметра     
+                               </li>
+                           </ol>
+                           <div class="code">
+                               <pre class="code">
+
+     <span class="keyword">var</span> baseUrl <span class="operator">=</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">text!better/templates/tooltip/</span><span class="STRING_LITERAL">'</span><span class="operator">;</span>
+     <span class="IDENTIFIER">require</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Tooltip</span><span class="STRING_LITERAL">'</span>,baseUrl <span class="operator">+</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">twitter.html</span><span class="STRING_LITERAL">'</span>, baseUrl<span class="operator">+</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">dijit.html</span><span class="STRING_LITERAL">'</span>], 
+     <span class="keyword">function</span>(<span class="IDENTIFIER">Tooltip</span>,<span class="IDENTIFIER">twitterTpl</span>,<span class="IDENTIFIER">dijitTpl</span>){
+         <span class="keyword">var</span> <span class="IDENTIFIER">dijitTooltip</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="IDENTIFIER">Tooltip</span>({
+             <span class="IDENTIFIER">template</span><span class="operator">:</span> <span class="IDENTIFIER">dijitTpl</span>
+         }, <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#dijit-tooltip-sample</span><span class="STRING_LITERAL">'</span>)
+
+         <span class="keyword">var</span> <span class="IDENTIFIER">twitterTooltip</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="IDENTIFIER">Tooltip</span>({
+             <span class="IDENTIFIER">template</span><span class="operator">:</span> <span class="IDENTIFIER">twitterTpl</span>
+         }, <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#twitter-tooltip-sample</span><span class="STRING_LITERAL">'</span>)
+     })
+     
+</pre>
+                           </div>
+
+
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Возможно, Вам понадобится адаптация шаблона а не просто копипаст. 
+                                У Twitter Dialog, по умолчанию, стоят отрицательные отступы, которые мешают позиционированию по центру. 
+                                Но после адаптации, Вы можете использовать шаблон и снова и снова и снова.....
+                            </div>
+                           
+                           
+                           <h2>
+                                Привязка шаблона к виджету <small> Как это работает? </small>
+                           </h2>
+                           <p>
+                               Работает это довольно просто. Давайте взглянем на шаблон виджета в двух его ипостасях:
+                           </p>
+                           <b>
+                               Внешний вид
+                           </b>
+                           <div class="well">
+                               
+                               <div class="modal" style="margin: 0px; position: static;">
+                                  <div data-better-point="headerNode" class="modal-header">
+                                    <button data-better-point="closeNode" data-better-event="click:hide" type="button" class="close">×</button>
+                                    <h3 data-better-point="titleNode"> Title </h3>
+                                  </div>
+                                  <div data-better-point="contentNode" class="modal-body">
+                                      content
+                                  </div>
+                                  <div  class="modal-footer">
+                                    <!--<a href="#" class="btn">Close</a>-->
+                                    <!--<a href="#" class="btn btn-primary">Save changes</a>-->
+                                  </div>
+                              </div>
+
+
+
+                           </div>
+                           <b>
+                               Код шаблона
+                           </b>
+                           <div class="code">
+                               <pre class="code"><span class="tag">&lt;</span><span class="tag">div</span> <span class="argument">class</span><span class="argument">=</span><span class="value">"</span><span class="value">modal</span><span class="value">"</span> <span class="argument">style</span><span class="ST2">=</span><span class="ST3">"</span><span class="aST8">margin</span><span class="highlight-caret-row">:</span> <span class="ST6">0px</span><span class="value">"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;</span><span class="tag">div</span> <span class="argument">data-better-point</span><span class="argument">=</span><span class="value">"headerNode"</span> <span class="argument">class</span><span class="argument">=</span><span class="value">"</span><span class="ST8">modal-header</span><span class="value">"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;</span><span class="tag">button</span> <span class="argument">data-better-point</span><span class="argument">=</span><span class="value">"closeNode"</span> <span class="argument">data-better-event</span><span class="argument">=</span><span class="value">"click:hide"</span> <span class="argument">type</span><span class="argument">=</span><span class="value">"button"</span> <span class="argument">class</span><span class="argument">=</span><span class="value">"</span><span class="ST8">close</span><span class="value">"</span><span class="tag">&gt;</span>×<span class="tag">&lt;/</span><span class="tag">button</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;</span><span class="tag">h3</span> <span class="argument">data-better-point</span><span class="argument">=</span><span class="value">"titleNode"</span><span class="tag">&gt;</span><span class="tag">&lt;/</span><span class="tag">h3</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/</span><span class="tag">div</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;</span><span class="tag">div</span> <span class="argument">data-better-point</span><span class="argument">=</span><span class="value">"contentNode"</span> <span class="argument">class</span><span class="argument">=</span><span class="value">"</span><span class="ST8">modal-body</span><span class="value">"</span><span class="tag">&gt;</span>
+    
+  <span class="tag">&lt;/</span><span class="tag">div</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;</span><span class="tag">div</span>  <span class="argument">class</span><span class="argument">=</span><span class="value">"</span><span class="ST8">modal-footer</span><span class="value">"</span><span class="tag">&gt;</span>
+    <span class="block-comment">&lt;!--&lt;a href="#" class="btn"&gt;Close&lt;/a&gt;--&gt;</span>
+    <span class="block-comment">&lt;!--&lt;a href="#" class="btn btn-primary"&gt;Save changes&lt;/a&gt;--&gt;</span>
+  <span class="tag">&lt;/</span><span class="tag">div</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/</span><span class="tag">div</span><span class="tag">&gt;</span>
+
+
+
+</pre>
+                           </div>
+                           <p>
+                               Обратите внимание на атрибуты <code>data-better-point="pointName" </code> и <code>data-better-event="event:handler" </code> 
+                               Это точки привязки класса виджета к шаблону <br/>
+                               <code> data-better-point="headerNode" </code>  - узел шаблона, содержащий данный data-атрибут 
+                               будет доступен Вам из виджета как <code>widget.headerNode</code>  <br/> <br/>
+                               <code>data-better-event="click:hide"</code> - при клике на узел шаблона, содержащий данный data-атрибут,
+                               будет вызываться обработчик <code> widget.hide </code>
+                               
+                           </p>
+                           
+                           <b> Как виджет использует точки привязки к шаблону? </b> <br/>
+                           <p>
+                               Самым Выгодным Способом! <br/>
+                               Например, код метода setContent у better.Panel выглядит так(примерно так):
+                           </p>
+                           <div class="code">
+                               <pre class="code">        <span class="ST1">setContent</span><span class="ST2">:</span> <span class="keyword">function</span><span class="highlight-caret-row">(</span><span class="IDENTIFIER">content</span><span class="highlight-caret-row">)</span> <span class="highlight-caret-row">{</span>
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">contentNode</span><span class="operator">.</span><span class="IDENTIFIER">html</span>(<span class="IDENTIFIER">content</span>)
+        }
+        
+</pre>
+                           </div>
+                           
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> 
+                                Смысл в том, что виджет работает с "абстракцией", точкой монтирования DOMузла, а не самим DOMузлом(выгребая его по селектору)
+                            </div>
+                           
+                           <h2> Реализация привязки  виджет-шаблон </h2>
+                           
+                           <p>
+                               Допустим, есть у Вас вот такой простенький объект диалога
+                           </p>
+                           <div class="code">
+                               <pre class="code"> 
+ 
+ <span class="IDENTIFIER">require</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/templates/dialog/twitter.html</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/ui/position</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">template</span>){
+     window<span class="operator">.</span><span class="IDENTIFIER">dialog</span> <span class="operator">=</span> {
+            <span class="IDENTIFIER">domNode</span><span class="operator">:</span> <span class="keyword">null</span>,
+            <span class="ST1">init</span><span class="operator">:</span> <span class="keyword">function</span>() {
+                <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span> <span class="operator">=</span> <span class="IDENTIFIER">$</span>(<span class="IDENTIFIER">template</span>)
+                                   <span class="operator">.</span><span class="IDENTIFIER">css</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">display</span><span class="STRING_LITERAL">'</span>, <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">none</span><span class="STRING_LITERAL">'</span>)
+                                   <span class="operator">.</span><span class="IDENTIFIER">appendTo</span>(document<span class="operator">.</span><span class="IDENTIFIER">body</span>)
+            },
+            <span class="ST1">show</span><span class="operator">:</span> <span class="keyword">function</span>() {
+                <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span><span class="operator">.</span><span class="IDENTIFIER">position</span>({
+                    <span class="IDENTIFIER">of</span><span class="operator">:</span> window
+                })
+                <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span><span class="operator">.</span><span class="IDENTIFIER">fadeIn</span>()
+            },
+            <span class="ST1">hide</span><span class="operator">:</span> <span class="keyword">function</span>() {
+                    <span class="keyword">var</span> self <span class="operator">=</span> <span class="keyword">this</span><span class="operator">;</span>
+                    <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span><span class="operator">.</span><span class="IDENTIFIER">fadeOut</span>(<span class="keyword">function</span>(){
+
+                    <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">ui</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">position</span> <span class="LINE_COMMENT">костыль</span>
+                    <span class="IDENTIFIER">self</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span><span class="operator">.</span><span class="IDENTIFIER">css</span>({
+                        <span class="IDENTIFIER">left</span><span class="operator">:</span> <span class="FLOAT_LITERAL">0</span>,
+                        <span class="IDENTIFIER">top</span><span class="operator">:</span> <span class="FLOAT_LITERAL">0</span>
+                    })
+                })
+            },
+            <span class="ST1">setContent</span><span class="operator">:</span> <span class="keyword">function</span>(<span class="IDENTIFIER">content</span>) {
+                <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">contentNode</span><span class="operator">.</span><span class="IDENTIFIER">html</span>(<span class="IDENTIFIER">content</span>) 
+            }
+        }<span class="operator">.</span><span class="IDENTIFIER">init</span>()<span class="operator">;</span>
+ })
+</pre>
+                           </div>
+                           
+                           <p>
+                               <b> 60 строчек кода, которые присоединят точки монтирования в шаблоне к Вашему виджету </b> <br/>
+                           </p>
+                           
+                           <div class="code">
+                               <pre class="code">    
+    <span class="keyword">var</span> processDataPoints <span class="operator">=</span> <span class="keyword">function</span>(<span class="IDENTIFIER">widget</span>){
+        <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">summary</span><span class="LINE_COMMENT">:</span>
+        <span class="LINE_COMMENT">//          </span><span class="LINE_COMMENT">Process</span> <span class="LINE_COMMENT">data</span><span class="LINE_COMMENT">-</span><span class="LINE_COMMENT">better</span><span class="LINE_COMMENT">-</span><span class="LINE_COMMENT">event</span><span class="LINE_COMMENT"> &amp;&amp; </span><span class="LINE_COMMENT">data</span><span class="LINE_COMMENT">-</span><span class="LINE_COMMENT">better</span><span class="LINE_COMMENT">-</span><span class="LINE_COMMENT">point</span> <span class="LINE_COMMENT">attribs</span>
+        <span class="IDENTIFIER">widget</span><span class="operator">.</span><span class="IDENTIFIER">domNode</span><span class="operator">.</span><span class="IDENTIFIER">find</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">*</span><span class="STRING_LITERAL">'</span>)<span class="operator">.</span><span class="IDENTIFIER">andSelf</span>()<span class="operator">.</span><span class="IDENTIFIER">each</span>(<span class="keyword">function</span>(){
+            <span class="keyword">var</span> <span class="IDENTIFIER">el</span> <span class="operator">=</span> <span class="IDENTIFIER">$</span>(<span class="keyword">this</span>),
+                 <span class="IDENTIFIER">data</span> <span class="operator">=</span> <span class="IDENTIFIER">el</span><span class="operator">.</span><span class="IDENTIFIER">data</span>(),
+                 <span class="IDENTIFIER">evt</span> <span class="operator">=</span> <span class="IDENTIFIER">data</span><span class="operator">.</span><span class="IDENTIFIER">betterEvent</span>,
+                 <span class="IDENTIFIER">point</span> <span class="operator">=</span> <span class="IDENTIFIER">data</span><span class="operator">.</span><span class="IDENTIFIER">betterPoint</span><span class="operator">;</span>
+                 
+            <span class="keyword">if</span>(<span class="IDENTIFIER">evt</span>) {
+                <span class="IDENTIFIER">attachEvent</span>(<span class="IDENTIFIER">widget</span>,<span class="IDENTIFIER">el</span>,<span class="IDENTIFIER">evt</span>)
+            }
+            
+            <span class="keyword">if</span>(<span class="IDENTIFIER">point</span>) {
+                <span class="IDENTIFIER">attachPoint</span>(<span class="IDENTIFIER">widget</span>, <span class="IDENTIFIER">el</span>, <span class="IDENTIFIER">point</span>)
+            }
+        })
+    }
+    
+    <span class="keyword">var</span> attachEvent <span class="operator">=</span> <span class="keyword">function</span>(<span class="IDENTIFIER">widget</span>, <span class="LINE_COMMENT">/*</span><span class="LINE_COMMENT">jQuery</span><span class="LINE_COMMENT">*/</span><span class="IDENTIFIER">el</span>, <span class="LINE_COMMENT">/*</span><span class="LINE_COMMENT">String</span><span class="LINE_COMMENT">*/</span><span class="IDENTIFIER">eventDefinition</span>) {
+        <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">summary</span><span class="LINE_COMMENT">:</span>
+        <span class="LINE_COMMENT">//          </span><span class="LINE_COMMENT">Bind</span> <span class="LINE_COMMENT">Widget</span> <span class="LINE_COMMENT">methods</span> <span class="LINE_COMMENT">as</span> <span class="LINE_COMMENT">an</span> <span class="LINE_COMMENT">event</span> <span class="LINE_COMMENT">handlers</span> <span class="LINE_COMMENT">for</span> <span class="LINE_COMMENT">given</span> <span class="LINE_COMMENT">DOMElement</span> <span class="LINE_COMMENT">wrapped</span> <span class="LINE_COMMENT">with</span> <span class="LINE_COMMENT">jQuery</span>
+
+        <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">get</span> <span class="LINE_COMMENT">comma</span><span class="LINE_COMMENT">-</span><span class="LINE_COMMENT">separated</span> <span class="LINE_COMMENT">event</span> <span class="LINE_COMMENT">definitions</span><span class="LINE_COMMENT">.</span>
+        <span class="keyword">var</span> <span class="IDENTIFIER">defs</span> <span class="operator">=</span> <span class="IDENTIFIER">eventDefinition</span><span class="operator">.</span><span class="IDENTIFIER">split</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">,</span><span class="STRING_LITERAL">'</span>),
+            <span class="IDENTIFIER">parts</span> <span class="operator">=</span> [],
+            <span class="IDENTIFIER">evtName</span> <span class="operator">=</span> <span class="STRING_LITERAL">"</span><span class="STRING_LITERAL">"</span>,
+            <span class="IDENTIFIER">widgetMethodName</span> <span class="operator">=</span> <span class="STRING_LITERAL">"</span><span class="STRING_LITERAL">"</span><span class="operator">;</span>
+            $<span class="operator">.</span><span class="IDENTIFIER">each</span>(<span class="IDENTIFIER">defs</span>, <span class="keyword">function</span>(<span class="IDENTIFIER">idx</span>, <span class="IDENTIFIER">definition</span>) {
+                <span class="LINE_COMMENT">// </span><span class="LINE_COMMENT">split</span> <span class="LINE_COMMENT">definition</span> <span class="LINE_COMMENT">to</span><span class="LINE_COMMENT"> [</span><span class="LINE_COMMENT">DOMEventName</span><span class="LINE_COMMENT">,</span><span class="LINE_COMMENT">DOMEventHandler</span><span class="LINE_COMMENT">] </span><span class="LINE_COMMENT">pair</span>
+                <span class="IDENTIFIER">parts</span> <span class="operator">=</span> <span class="IDENTIFIER">definition</span><span class="operator">.</span><span class="IDENTIFIER">split</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">:</span><span class="STRING_LITERAL">'</span>),
+                <span class="IDENTIFIER">evtName</span> <span class="operator">=</span> <span class="IDENTIFIER">parts</span>[<span class="FLOAT_LITERAL">0</span>],
+                <span class="IDENTIFIER">widgetMethodName</span> <span class="operator">=</span> <span class="IDENTIFIER">parts</span>[<span class="FLOAT_LITERAL">1</span>]<span class="operator">;</span>
+
+                <span class="LINE_COMMENT">// </span><span class="LINE_COMMENT">bind</span> <span class="LINE_COMMENT">Widget</span> <span class="LINE_COMMENT">method</span> <span class="LINE_COMMENT">to</span> <span class="LINE_COMMENT">DOMElement</span> <span class="LINE_COMMENT">event</span>
+                <span class="IDENTIFIER">el</span><span class="operator">.</span><span class="IDENTIFIER">on</span>(<span class="IDENTIFIER">evtName</span>, $<span class="operator">.</span><span class="IDENTIFIER">proxy</span>(<span class="IDENTIFIER">widget</span>[<span class="IDENTIFIER">widgetMethodName</span>], <span class="IDENTIFIER">widget</span>))
+            })
+    }
+    
+    <span class="keyword">var</span> attachPoint <span class="operator">=</span> <span class="keyword">function</span>(<span class="IDENTIFIER">widget</span>, <span class="LINE_COMMENT">/*</span><span class="LINE_COMMENT">jQuery</span><span class="LINE_COMMENT">*/</span> <span class="IDENTIFIER">el</span>, <span class="LINE_COMMENT">/*</span><span class="LINE_COMMENT">String</span><span class="LINE_COMMENT">*/</span> <span class="IDENTIFIER">pointList</span>){
+        <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">summary</span><span class="LINE_COMMENT">:</span>
+        <span class="LINE_COMMENT">//          </span><span class="LINE_COMMENT">Bind</span> <span class="LINE_COMMENT">DOMElement</span> <span class="LINE_COMMENT">references</span> <span class="LINE_COMMENT">wrapped</span> <span class="LINE_COMMENT">with</span> <span class="LINE_COMMENT">jQuery</span> <span class="LINE_COMMENT">to</span> <span class="LINE_COMMENT">Widget</span>
+        $<span class="operator">.</span><span class="IDENTIFIER">each</span>(<span class="IDENTIFIER">pointList</span><span class="operator">.</span><span class="IDENTIFIER">split</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">,</span><span class="STRING_LITERAL">'</span>),<span class="keyword">function</span>(<span class="IDENTIFIER">idx</span>, <span class="IDENTIFIER">point</span>){
+             <span class="IDENTIFIER">widget</span>[<span class="IDENTIFIER">point</span>] <span class="operator">=</span> <span class="IDENTIFIER">el</span>
+        })
+    }
+    
+</pre>                               
+                           </div>
+                           
+                           <b>Присоединяем....</b> <br/>
+                           <code>processDataPoints(window.dialog)</code> <br/>
+                           
+                           <b>Результат:</b>
+                           <div  class="well">
+                               <code> $('#show_dialog').on('click',function(event){window.dialog.show(); event.preventDefault()}) </code> <br/>
+                               <a id="show_dialog" class="btn"> Show Our Dialog</a>
+                           </div>
+                           
+                           <div class="alert alert-info">
+                                <strong>Ахтунг!</strong>
+                                Шаблон без титула и содержимого выглядит кривовато. Простите меня за это. Я старался максимально упростить код примера
+                           </div>
+                           
+                           <script>
+                                         var processDataPoints = function(widget){
+        //summary:
+        //          Process data-better-event && data-better-point attribs
+        widget.domNode.find('*').andSelf().each(function(){
+            var el = $(this),
+                 data = el.data(),
+                 evt = data.betterEvent,
+                 point = data.betterPoint;
+                 
+            if(evt) {
+                attachEvent(widget,el,evt)
+            }
+            
+            if(point) {
+                attachPoint(widget, el, point)
+            }
+        })
+    }
+    
+    var attachEvent = function(widget, /*jQuery*/el, /*String*/eventDefinition) {
+        //summary:
+        //          Bind Widget methods as an event handlers for given DOMElement wrapped with jQuery
+
+        //get comma-separated event definitions.
+        var defs = eventDefinition.split(','),
+            parts = [],
+            evtName = "",
+            widgetMethodName = "";
+            $.each(defs, function(idx, definition) {
+                // split definition to [DOMEventName,DOMEventHandler] pair
+                parts = definition.split(':'),
+                evtName = parts[0],
+                widgetMethodName = parts[1];
+
+                // bind Widget method to DOMElement event
+                el.on(evtName, $.proxy(widget[widgetMethodName], widget))
+            })
+    }
+    
+    var attachPoint = function(widget, /*jQuery*/ el, /*String*/ pointList){
+        //summary:
+        //          Bind DOMElement references wrapped with jQuery to Widget
+        $.each(pointList.split(','),function(idx, point){
+             widget[point] = el
+        })
+    }
+    
+ 
+ $('#show_dialog').on('click',function(event){window.dialog.show(); event.preventDefault()}) 
+     require(['text!better/templates/dialog/twitter.html','better/ui/position'],function(template){
+     window.dialog = {
+            domNode: null,
+            init: function() {
+                this.domNode = $(template)
+                                   .css('display', 'none')
+                                   .appendTo(document.body)
+                return this;
+            },
+            show: function() {
+                this.domNode.position({
+                    of: window
+                })
+                this.domNode.fadeIn()
+            },
+            hide: function() {
+                var self = this;
+                this.domNode.fadeOut(function(){
+                    //ui.position костыль
+                    self.domNode.css({
+                        left: 0,
+                        top: 0
+                    })
+                })
+            },
+            setContent: function(content) {
+                this.contentNode.html(content) 
+            }
+        }.init();
+         processDataPoints(dialog) 
+ })
+                                    </script>
+                           
+                </div>
+            </div>
+        </div>
+        <div id="tools-dialog-sample" style="display:none;">
+            I am a skin of
+            <a target="_blank" href="http://www.jquerytools.org/demos/overlay/index.html">
+                jquery tools overlay
+            </a>
+        </div>
+
+        <div id="ui-dialog-sample" style="display:none;">
+                    I am a demo of <b>better.Dialog</b>
+        </div>
+
+        <div id="twitter-dialog-sample" style="display:none;">
+            <p>One fine body… </p>
+        </div>
+        </div>
+    </body>
+</html>

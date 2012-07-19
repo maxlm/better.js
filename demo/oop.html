@@ -1,0 +1,411 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <style type="text/css">
+        <!--
+        .code {color: #ffffff; background-color: #001d1d; font-family: monospace}
+        pre.code {color: #ffffff !important; background-color: #001d1d; font-family: monospace; font-size: 14px}
+        table {color: #808080; font-family: monospace}
+        .tag {color: #83c5ff}
+        .ST1 {color: #fa8968}
+        .ST2 {color: #ffc800}
+        .argument {color: #ddb26b}
+        .ST0 {color: #000000; font-family: monospace; font-size: 12}
+        .value {color: #76ba53}
+        .LINE_COMMENT {color: #616161}
+        .IDENTIFIER {color: #83c5ff}
+.LINE_COMMENT {color: #616161}
+.block-search {background-color: #404040}
+.ST0 {color: #000000; font-family: Consolas; font-size: 11}
+.STRING_LITERAL {color: #76ba53}
+.keyword {color: #ffc800} 
+        -->
+        </style>
+
+        <link href="../css/main.css" rel="stylesheet"/>
+        <link href="../js/better/themes/ui/jquery.ui.all.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap-responsive.css" rel="stylesheet" />
+        <link href="../js/better/themes/dijit/tooltip.css" rel="stylesheet" />
+        <title>jQuery+OOP = Love</title>
+        <!-- This is a special version of jQuery with RequireJS built-in -->
+        <script type="text/javascript">
+            require = {
+                baseUrl: '../js/',
+                packages: [{
+                        name: 'better',
+                        location: 'better',
+                        main: 'better'
+                }]
+            }
+          </script>
+          
+        <script type="text/javascript" src="../js/require-jquery.js"></script>
+        <script>
+                require(['better'],function($){
+                    
+                })
+           </script>
+        
+
+           <style>
+               #pane-demo{
+                   height: 200px; width: 300px; border: 1px dashed gray;
+                   margin-left: 30px;
+                   margin-top: 50px;
+                   padding: 20px;
+               }
+               p {
+                   text-align: justify !important;
+               }
+
+           </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header" >
+                <h1>
+                    Использование Object Oriented Programming
+                    <small>
+                        На примере better.js
+                    </small>
+                </h1>
+            </div>
+                <div class="row">
+                    <div class="span3 columns">
+                        <h3>
+                            Три буквы: O-O-P
+                        </h3>
+                        <p>
+                            JavaScript - язык прототипов. 
+                            Это одна из самых непонятых концепций. Но и одна из самых мощных.
+                            Среди прочего, JavaScript позволяет реализовать парадигму ООП, со своими нюансами (JavaScript таки язык прототипов)
+                        </p>
+                        <P>
+                            Методики реализации OOP на JavaScript очень разнятся.
+                            
+                            Сколько людей - столько и мнений. <br/>
+                            Вот вам парочка: <br/>
+                            <a target="_blank" href="http://jsclass.jcoglan.com/"> http://jsclass.jcoglan.com</a> <br/>
+                            <a target="_blank" href="https://github.com/dfilatov/jquery-plugins/tree/master/src/jquery.inherit"> jquery.inherit </a> <br/>
+                            <a target="_blank" href="http://dojotoolkit.org/reference-guide/1.7/dojo/declare.html#dojo-declare">dojo.declare </a> <br/>
+                            <a target="_blank" href="http://docs.sencha.com/ext-js/4-0/#!/api/Ext.Class"> extJS </a> <br/> <br/>
+                            Подробнее о наследовании можно почитать <a href="http://javascript.ru/tutorial/object/inheritance"> тут </a>
+                            
+                        </p>
+                        <p>
+                            Каким инструментом пользоваться - выбирать Вам. 
+                            Главное, не какой именно инструмент, а как вы его используете <br/>
+                            Я покажу вам свой ^^ И OOP в действии
+                        </p>
+                    </div>
+                    <div class="span9 columns">
+                        <h2>Прежде чем начать <small> Если у Вас возникнут вопросы</small></h2>
+                        <p>
+                            Если у Вас возникнут вопросы (а они скорее всего возникнут), то у Вас есть отличная шпаргалка в виде кода.
+                            Очень трудно рассказать всё подробно и никого не утомить количеством букв. Да и нет на это времени.
+                            Так что, заглядывайте в код!
+                        </p>
+                        <h2> Объявляем класс <small>при помощи better/toolbox/declare </small>  </h2>
+                        
+                        <pre class="code">
+
+<span class="IDENTIFIER">define</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">$</span>){
+            
+    <span class="keyword">var</span> <span class="IDENTIFIER">Widget</span> <span class="operator">=</span> <span class="IDENTIFIER">$</span><span class="operator">.</span><span class="IDENTIFIER">declare</span>(<span class="LINE_COMMENT">/*</span><span class="LINE_COMMENT">No</span> <span class="LINE_COMMENT">Parents</span><span class="LINE_COMMENT">*/</span><span class="keyword">null</span>,{
+        <span class="IDENTIFIER">declaredClass</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">widget</span><span class="STRING_LITERAL">'</span>,
+        <span class="IDENTIFIER">template</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">'</span>,
+        <span class="IDENTIFIER">objectProp</span><span class="operator">:</span> {},
+        <span class="ST1">__construct</span><span class="operator">:</span> <span class="keyword">function</span>() {
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">summary</span><span class="LINE_COMMENT">:</span>
+            <span class="LINE_COMMENT">//          </span><span class="LINE_COMMENT">It</span><span class="LINE_COMMENT">'</span><span class="LINE_COMMENT">s</span> <span class="LINE_COMMENT">a</span> <span class="LINE_COMMENT">class</span> <span class="LINE_COMMENT">constructor</span>
+            <span class="LINE_COMMENT">//          </span><span class="LINE_COMMENT">similar</span> <span class="LINE_COMMENT">to</span> <span class="LINE_COMMENT">PHP5</span> <span class="LINE_COMMENT">__construct</span>
+
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">do</span> <span class="LINE_COMMENT">object</span> <span class="LINE_COMMENT">construction</span> <span class="LINE_COMMENT">stuff</span> <span class="LINE_COMMENT">here</span>
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">objectProp</span> <span class="operator">=</span> {}
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">__self.SOME_CLASS_CONSTANT</span> 
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">init</span>()
+        },
+        <span class="ST1">init</span><span class="operator">:</span> <span class="keyword">function</span>() {
+            <span class="LINE_COMMENT">// </span><span class="LINE_COMMENT">do</span> <span class="LINE_COMMENT">init</span> <span class="LINE_COMMENT">stuff</span> <span class="LINE_COMMENT">here</span>
+        },
+        <span class="ST1">render</span><span class="operator">:</span> <span class="keyword">function</span>(){
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">render</span> <span class="LINE_COMMENT">widget</span> <span class="LINE_COMMENT">template</span> <span class="LINE_COMMENT">here</span>
+        }
+    })
+   <span class="IDENTIFIER">Widget.SOME_CLASS_CONSTANT</span> =     <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">be-be-be</span><span class="STRING_LITERAL">'</span>
+    <span class="keyword">return</span> <span class="IDENTIFIER">Widget</span>
+})
+</pre>
+                        
+                        <p>
+                            Код довольно наглядный, и в пояснениях особо не нуждается.
+                            Пара моментов: <br/>
+                            <code> this.objectProp = {} </code> <br/>
+                            Дело в том, что объекты и массивы в JavaScript передаются по ссылке.
+                            А это значит, что если в конструкторе объекта не произвести инициализзацию,
+                            то все классы будут разделять одно и то же свойство <code>objectProp</code>. <br/>
+                            <code>__self</code> - ссылка на конструтор класса. Это возволит вам обращаться к константам класса, назначать их, не упоминая имени класса
+                        </p>
+                        <div class="alert alert-info">
+                            <strong>Ахтунг!</strong> Попробуйте создать свой собственный класс
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>Ахтунг!</strong> Данный код лишь ознакомляет с тем, как пользоваться better/toolbox/declare. <br/>
+                            Полностью рабочий код Вы можете посмотреть в исходниках проекта
+                        </div>
+                        
+                        <h2>
+                            Наследование <small> На примере better.js</small>
+                        </h2>
+                        
+                        <div class="code">
+                            <pre class="code">
+
+<span class="IDENTIFIER">define</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Widget</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">$</span>, <span class="IDENTIFIER">Widget</span>){
+            
+    <span class="keyword">var</span> <span class="IDENTIFIER">Panel</span> <span class="operator">=</span> <span class="IDENTIFIER">$</span><span class="operator">.</span><span class="IDENTIFIER">declare</span>(<span class="IDENTIFIER">Widget</span>,{
+        <span class="IDENTIFIER">className</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better.Dialog</span><span class="STRING_LITERAL">'</span>,
+        <span class="IDENTIFIER">template</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">'</span>,
+        <span class="IDENTIFIER">objectProp</span><span class="operator">:</span> {},
+        <span class="ST1">__construct</span><span class="operator">:</span> <span class="keyword">function</span>() {
+
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">call</span> <span class="LINE_COMMENT">parent</span><span class="LINE_COMMENT">::</span><span class="LINE_COMMENT">__construct</span>
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">inherited</span>(<span class="IDENTIFIER">arguments</span>)
+        },
+        <span class="ST1">render</span><span class="operator">:</span> <span class="keyword">function</span>(){
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">call</span> <span class="LINE_COMMENT">parent</span><span class="LINE_COMMENT">::</span><span class="LINE_COMMENT">render</span>
+            <span class="keyword">this</span><span class="operator">.</span><span class="IDENTIFIER">inherited</span>(<span class="IDENTIFIER">arguments</span>)
+            <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">render</span> <span class="LINE_COMMENT">widget</span> <span class="LINE_COMMENT">template</span> <span class="LINE_COMMENT">here</span>
+        }
+    })
+    
+    <span class="keyword">return</span> <span class="IDENTIFIER">Panel</span>
+})
+
+</pre>
+
+                        </div>
+                                                    <p>
+                                <code>this.inherited(arguments)</code> позволяет вызвать нам метод предка
+                            </p>
+                            <p>
+                                Это дает нам максимум гибкости и повторной используемости кода. При этом, мы не зависим от имени класса предка, 
+                                как в некоторых реализациях. 
+                            </p>
+                        <div class="alert alert-info">
+                            <strong>Ахтунг!</strong> Попробуйте унаследовать свой класс
+                        </div>
+                            
+                            <h2>
+                                Знакомство с better.Panel <small> Скажи $('#my-element').load(url) НЕТ</small>
+                            </h2>
+                            <p>
+                                <b>Для начала, давайте создадим нашу панель </b>
+                            </p>
+                            
+                            <div class="code">
+                                <pre class="code">
+
+<span class="IDENTIFIER">require</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Panel</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">Panel</span>){
+    <span class="keyword">var</span> <span class="IDENTIFIER">paneArguments</span> <span class="operator">=</span> {
+        <span class="IDENTIFIER">id</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">pane-demo</span><span class="STRING_LITERAL">'</span>
+    }
+    <span class="keyword">var</span> <span class="IDENTIFIER">paneDemo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="IDENTIFIER">Panel</span>(<span class="IDENTIFIER">paneArguments</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#dom-element</span><span class="STRING_LITERAL">'</span>) 
+})
+
+</pre>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Любой виджет в better.js принимает при создании два параметра: 
+                                объект с настройками и DOMузел/id DOMузла/jQuery объект<br/>
+                                DOMузел - это место, куда отрисуется виджет. <br/>
+                                Ссылку на DOMузел виджета можно получить так: <code> Widget.domNode </code> Следует заметить, что это jQuery объект
+                            </div>
+                            <p>
+                               Что за параметр id? Спросите Вы. Это  id вашего виджета.
+                               Теперь, вы можете получить получить виджет по id из любого места в коде: <br/>
+                               <code> var paneWidget = better.Widget.byId('pane-demo')</code>
+                            </p>
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Любой виджет на базе better.Widget регистрирует себя под своим id в реестре виджетов при создании.<br/>
+                                Примерно так: <code>better.Widget.registry[this.id] = this</code>
+                            </div>
+                            <b> И посмотрим, что у нас получилось </b>
+                            
+                            <div class="well">
+                                <div id="pane-demo" style="">
+                                    <h3>Hello, I am content pane demo</h3>
+                                    <p>
+                                        I'm just a block element with ability to set or load content
+                                        via setHref and setContent methods
+                                    </p>
+                                </div>
+                            </div>
+                            
+                           <script>
+                                            require(['better/Panel'],function(Panel){
+                                                var paneArguments = {
+                                                    id: 'pane-demo'
+                                                }
+                                                var paneDemo = new Panel(paneArguments,'#pane-demo') 
+                                            })
+                                    </script>
+                            <p>
+                                А теперь, давайте ознакомимся с возможностями better.Panel. 
+                            </p>
+                            <p>
+                                Открываем файрбаг консоль, и пишем: <br/>
+                                <code>better.Widget.byId('pane-demo').setContent('&lt;b&gt;I am a content set via setContent &lt;/b&gt;') </code> 
+                                <br/> <br/>
+                                <code>better.Widget.byId('pane-demo').setHref('ajax.php') </code> <br/>
+                            </p>
+                            <p>
+                                <b> События </b> <br/>
+                                better.Panel имеет два события: <br/>
+                                <ol>
+                                    <li>
+                                        <code>better.Panel.load</code> -  срабатывает при успешной загрузке контента
+                                    </li>
+                                    <li>
+                                        <code>better.Panel.error</code> - срабатывает при неуспешной попытке загрузить контент
+                                    </li>
+                                </ol>
+                            </p>
+                             <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Хорошее правило именования событий для Ваших виджетов: 
+                                <code>{имя_виджета} + {имя_события} </code>
+                             </div>
+                            
+                            <p>
+                                Подписаться  на события можно так:
+                            </p>
+                            <div class="code">
+                                <pre class="code">
+
+better<span class="operator">.</span><span class="IDENTIFIER">Widget</span><span class="operator">.</span><span class="IDENTIFIER">byId</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">pane-demo</span><span class="STRING_LITERAL">'</span>)<span class="operator">.</span><span class="IDENTIFIER">on</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">load</span><span class="STRING_LITERAL">'</span>,<span class="keyword">function</span>(<span class="IDENTIFIER">event</span>){
+    console<span class="operator">.</span><span class="IDENTIFIER">log</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">content received and set to Pane:</span><span class="STRING_LITERAL">'</span>, <span class="IDENTIFIER">event.content</span>)
+    console<span class="operator">.</span><span class="IDENTIFIER">log</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">And widget object is:</span><span class="STRING_LITERAL">'</span>, <span class="IDENTIFIER">event</span><span class="operator">.</span><span class="IDENTIFIER">widget</span>)
+})
+
+</pre>
+                            </div>
+                             <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Если вы привязываете обработчик события непосредственно к виджету, 
+                                то Вам совсем не обязательно указывать полное имя события <code> better.Panel.load</code> 
+                                Панель сама прекрасно знает как ее зовут
+                             </div>
+                            <p>
+                                Или так:
+                            </p>
+                            <div class="code">
+                                <pre class="code">
+
+<span class="IDENTIFIER">$</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#pane-demo</span><span class="STRING_LITERAL">'</span>)<span class="operator">.</span><span class="IDENTIFIER">on</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better.Panel.load</span><span class="STRING_LITERAL">'</span>,<span class="keyword">function</span>(<span class="IDENTIFIER">event</span>){
+    console<span class="operator">.</span><span class="IDENTIFIER">log</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">content received and set to Pane:</span><span class="STRING_LITERAL">'</span>, <span class="IDENTIFIER">event</span><span class="operator">.</span><span class="IDENTIFIER">content</span>)
+    console<span class="operator">.</span><span class="IDENTIFIER">log</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">And widget object is:</span><span class="STRING_LITERAL">'</span>, <span class="IDENTIFIER">event</span><span class="operator">.</span><span class="IDENTIFIER">widget</span>)
+})
+
+</pre>
+                            </div>
+                             <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Если вы привязываете обработчик события к DOMузлу виджета, то нужно указывать полное имя события: 
+                                <code> better.Panel.load</code> <br/> 
+                                "Зачем это нужно?!" спросите Вы. Отвечу: чтобы использовать преимущества делегирования событий. Подробнее о делегировании событий можно почитать 
+                                <a target="_blank" href="http://habrahabr.ru/post/70760/">
+                                    тут
+                                </a>
+                                ,
+                                <a target="_blank" href="http://api.jquery.com/delegate/">
+                                    тут
+                                </a>
+                                и
+                                <a target="_blank" href="http://javascript.ru/tutorial/events/intro#poryadok-srabatyvaniya-sobytiy">
+                                    тут
+                                </a>
+                               
+                             </div>
+                            <div class="alert alert-success">
+                                <strong> Профит! </strong> Как результат, мы получили повторно используемый 
+                                и переносимый из проекта в проект  <code> $('#my').load(url) </code>
+                                <br/> С обработкой ошибок и отображением состояния загрузки
+                            </div>
+                            
+                            
+                            <h2>
+                                Знакомство с better.Dialog <small> Пиши новый код на базе уже существующего </small>
+                            </h2>
+                            <b> Объявление диалога</b> <br/>
+                            
+                            <div class="code">
+                                <pre class="code">
+
+<span class="IDENTIFIER">require</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Dialog</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">Dialog</span>){
+    <span class="keyword">var</span> <span class="IDENTIFIER">d</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="IDENTIFIER">Dialog</span>({
+        <span class="IDENTIFIER">title</span><span class="operator">:</span> <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">dialog title</span><span class="STRING_LITERAL">'</span>
+    },<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#dialog-demo</span><span class="STRING_LITERAL">'</span>)
+    <span class="IDENTIFIER">$</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#open_dialog</span><span class="STRING_LITERAL">'</span>)<span class="operator">.</span><span class="IDENTIFIER">click</span>(<span class="keyword">function</span>(<span class="IDENTIFIER">event</span>){
+        <span class="IDENTIFIER">d</span><span class="operator">.</span><span class="IDENTIFIER">show</span>()<span class="operator">;</span>
+        <span class="IDENTIFIER">event</span><span class="operator">.</span><span class="IDENTIFIER">preventDefault</span>()<span class="operator">;</span>
+    })
+})
+</pre>
+                            </div>
+                            <b>Результат</b> <br/>
+                            <div class="well">
+                                <a class="btn" id="open_dialog" href="#">
+                                    Open Dialog
+                                </a>
+                            </div>
+                            <div id="dialog-demo" style="display:none">
+                                Dialog content
+                            </div>
+                            
+                            <script>
+                                        require(['better/Dialog'],function(Dialog){
+                                            var d = new Dialog({
+                                                title: 'dialog title'
+                                            },'#dialog-demo')
+                                            $('#open_dialog').click(function(event){
+                                                d.show();
+                                                event.preventDefault();
+                                            })
+                                        })
+                                     </script>
+
+                            <p>
+                                  Диалог наследует от better.Panel,и, как следствие, имеет все методы и события better.Panel <br/>
+                                  Дополнительно, он имеет методы: <br/>
+                                  <code> setTitle(/*String*/title) </code> - устанавливает заголовок диалога <br/> <br/>
+                                  <code> show() </code> - открывает диалог <br/> <br/>
+                                  <code> hide() </code> - закрывает диалог <br/> <br/>
+                                  и события: <br/>
+                                  <code> better.Dialog.show</code> - срабатывает при открытии диалога <br/> <br/>
+                                  <code> better.Dialog.hide</code> - срабатывает при закрытии диалога <br/> <br/>
+                            </p>
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong>
+                                Полное имя событий <code>load</code> и <code> error </code> : &nbsp;
+                                <code> better.Dialog.load </code> и <code> better.Dialog.error </code>
+                            </div>
+                            <div class="alert alert-info">
+                                <strong>Ахтунг!</strong> Нет, это не Twitter Bootstrap диалог. Это better.Dialog Со скином Twitter Bootstrap
+                            </div>
+                            
+                        
+                            <h2>
+                                Остальное - смотрите в коде <small>Не знаю как Вам, а мне такой подход нравится больше, чем написание jQuery плагинов</small>
+                            </h2>
+                    </div>
+                </div>
+            
+        </div>
+    </body>
+</html>

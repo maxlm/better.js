@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <style type="text/css">
+        <!--
+        .code {color: #ffffff; background-color: #001d1d; font-family: monospace}
+        pre.code {color: #ffffff !important; background-color: #001d1d; font-family: monospace; font-size: 14px}
+        table {color: #808080; font-family: monospace}
+        .tag {color: #83c5ff}
+        .ST1 {color: #fa8968}
+        .ST2 {color: #ffc800}
+        .argument {color: #ddb26b}
+        .ST0 {color: #000000; font-family: monospace; font-size: 12}
+        .value {color: #76ba53}
+        .LINE_COMMENT {color: #616161}
+        .IDENTIFIER {color: #83c5ff}
+.LINE_COMMENT {color: #616161}
+.block-search {background-color: #404040}
+.ST0 {color: #000000; font-family: Consolas; font-size: 11}
+.STRING_LITERAL {color: #76ba53}
+.keyword {color: #ffc800} 
+        -->
+        </style>
+
+        <link href="../css/main.css" rel="stylesheet"/>
+        <link href="../js/better/themes/ui/jquery.ui.all.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap.css" rel="stylesheet" />
+        <link href="../js/better/themes/twitter/bootstrap-responsive.css" rel="stylesheet" />
+        <link href="../js/better/themes/dijit/tooltip.css" rel="stylesheet" />
+        <title>jQuery+RequireJS = Love</title>
+        <!-- This is a special version of jQuery with RequireJS built-in -->
+        <script type="text/javascript">
+            require = {
+                baseUrl: '../js/',
+                packages: [{
+                        name: 'better',
+                        location: 'better',
+                        main: 'better'
+                }]
+            }
+          </script>
+          
+        <script type="text/javascript" src="../js/require-jquery.js"></script>
+        
+
+           <style>
+               #pane{
+                   height: 200px; width: 300px; border: 1px dashed gray;
+                   margin-left: 30px;
+                   margin-top: 50px;
+                   padding: 20px;
+               }
+               p {
+                   text-align: justify !important;
+               }
+
+           </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                      <h1>
+                          Использование RequireJS
+                          <small>
+                              На примере better.js
+                          </small>
+                      </h1>
+            </div>
+            <div class="row">
+                <div class="span3 columns">
+                    <h3>
+                       RequireJS
+                    </h3>
+                    <p>
+                       Пожалуй, Самый Полезный Инструмент.
+                    </p>
+                    <p>
+                        <b>Requirejs позволяет нам: </b>
+
+                        <ul>
+                            <li>
+                                подгружать код по требованию
+                            </li>
+                            <li>
+                                отслеживать зависимости
+                            </li>
+                            <li>
+                                Делать сборки
+                            </li>
+                        </ul>
+
+                    </p>
+                    
+                    <p>
+                        За более подробной информацией советую заглянуть в
+                        <a target="_blank" href="http://requirejs.org"> официальную документацию </a>
+                    </p>
+
+                </div>
+
+                <div class="span9">
+                    <h2>
+                        Кофигурация
+                    </h2>
+                    <div class="code">
+                        <pre class="code">
+        <span class="tag">&lt;</span><span class="tag">script</span> <span class="argument">type</span><span class="argument">=</span><span class="value">"text/javascript"</span><span class="tag">&gt;</span>
+            require <span class="ST1">=</span> {
+                <span class="tag">baseUrl</span><span class="ST1">:</span> <span class="value">'</span><span class="value">../js/</span><span class="value">'</span>,
+                <span class="tag">packages</span><span class="ST1">:</span> [{
+                        <span class="tag">name</span><span class="ST1">:</span> <span class="value">'</span><span class="value">better</span><span class="value">'</span>,
+                        <span class="tag">location</span><span class="ST1">:</span> <span class="value">'</span><span class="value">better</span><span class="value">'</span>,
+                        <span class="tag">main</span><span class="ST1">:</span> <span class="value">'</span><span class="value">better</span><span class="value">'</span>
+                }]
+            }
+        <span class="tag">&lt;/</span><span class="tag">script</span><span class="tag">&gt;</span>
+
+        <span class="tag">&lt;</span><span class="tag">script</span> <span class="argument">type</span><span class="argument">=</span><span class="value">"text/javascript"</span> <span class="argument">src</span><span class="argument">=</span><span class="value">"../js/require-jquery.js"</span><span class="tag">&gt;</span><span class="tag">&lt;/</span><span class="tag">script</span><span class="tag">&gt;</span>
+
+                        </pre>
+
+                    </div>
+                    <p>
+                        <b> baseUrl </b> конфигурируется относительно текущей страницы. 
+                    </p>
+                    <p>
+                        Как только вы потребуете какой либо модуль <b> name: 'better' </b>,
+                        <b>requirejs</b> сначала подгрузит файл-бутстрап модуля <b>main: 'better'</b>
+                        <br/>Который находится в <b> {baseUrl}/{location}/{main} </b>
+                    </p>
+                    <h2>
+                        Подгружаем модуль better.js
+                    </h2>
+                    <div>
+                        <pre class="code">        <span class="tag">&lt;</span><span class="tag">script</span><span class="tag">&gt;</span>
+            <span class="tag">require</span>([<span class="value">'</span><span class="value">jquery</span><span class="value">'</span>,<span class="value">'</span><span class="value">better/Dialog</span><span class="value">'</span>], <span class="ST2">function</span>(<span class="tag">$</span>,<span class="tag">Dialog</span>){
+                <span class="tag">$</span><span class="ST3">.</span><span class="tag">ready</span>(<span class="ST2">function</span>(){
+                    <span class="ST2">var</span> <span class="tag">dialogWIdget</span> <span class="ST3">=</span> <span class="ST2">new</span> <span class="tag">Dialog</span>({
+                        <span class="tag">title</span><span class="ST3">:</span> <span class="value">"</span><span class="value">Dialog Title</span><span class="value">"</span>
+                    },<span class="value">'</span><span class="value">#myDailog</span><span class="value">'</span>)
+                })
+            })
+        <span class="tag">&lt;/</span><span class="tag">script</span><span class="tag">&gt;</span>                  
+         
+</pre>
+                    </div>
+                    <p>
+                        Все зависимости указанные в первом параметре <b>require</b> будут подгружены 
+                        и переданы функцию(второй параметр), которая исполнится сразу же после загрузки зависимостей
+                    </p>
+                    <p>
+                        Следует учесть, что DOM дерево может быть не готово к использованию на момент подгрузки скриптов.
+                        Так что, используйте <b> $.ready </b> для исполнения загруженного кода
+                    </p>
+                    <p>
+                        <b> require </b> Подгрузит не только модуль better/Dialog, но и его зависимости, указанные при определении модуля
+                    </p>
+                    <div class="code">
+                        <table width="100%"><tbody><tr><td align="center">DOCUMENT_ROOT/js/better/Dialog.js</td></tr></tbody></table>
+                        <pre class="code">
+<span class="IDENTIFIER">define</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better</span><span class="STRING_LITERAL">'</span>, <span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Panel</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">text!better/templates/dialog/twitter.html</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">$</span>,<span class="IDENTIFIER">Panel</span>,<span class="IDENTIFIER">template</span>) {
+    <span class="LINE_COMMENT">//</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">.</span><span class="LINE_COMMENT">code</span> <span class="LINE_COMMENT">goes</span> <span class="LINE_COMMENT">here</span>
+})
+
+                        </pre>
+                    </div>
+                    <p>
+                        Примечательным является тот факт, что RequireJS может подгружать 
+                        не только JavaScript файлы, но и текст. Что позволит Вам подгружать шаблоны для Ваших виджетов <br/>
+                        Для этого вам понадобится плагин text.js. Он должен лежать в той же папке что и require-jquery.js
+                        Скачать плагин можно <a target="_blank" href="http://requirejs.org/docs/download.html"> тут </a>, 
+                        в разделе PLUGINS
+                    </p>
+                    <p>
+                        В кусочке кода выше, строчка <b> text!better/templates/dialog/twitter.html </b> 
+                        скажет requirejs что он должен подгрузить текстовый файл, 
+                        который находится в <b>better/templates/dialog/twitter.html </b> <br/>
+                        <b> text! </b> - ключевое слово 
+                    </p>
+                    <div class="alert alert-info">
+                        <strong>Ахтунг!</strong> Как только вы подгрузили <code>better/Dialog </code> с его зависимостями(<code> better/Panel</code>),
+                        оба класса становятся вам доступны в пространстве имен better <code>better.Dialog</code> и <code>better.Panel</code>
+                    </div>
+                    <h2>
+                        Подгрузка jQuery плагинов при помощи RequireJS
+                    </h2>
+                    <div class="code">
+                        <table width="100%"><tbody><tr><td align="center">DOCUMENT_ROOT/js/better/Panel.js</td></tr></tbody></table>
+                        <pre class="code">
+<span class="IDENTIFIER">define</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/Widget</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">better/ui/position</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(<span class="IDENTIFIER">$</span>,<span class="IDENTIFIER">Widget</span>) {
+    
+})
+
+                        </pre>
+                    </div>
+                    <p>
+                        <b>better/Panel</b> Использует в качестве зависимости jQueryUI плагин position. 
+                        Который позволяет с минимальными трудозатратами спозиционировать один элемент относительно другого.
+                    </p>
+                    <p>
+                        Как вы наверное заметили, подгружаемых зависимостей 3, а параметров в функции определяющей модуль всего 2.
+                        Поскольку jquery плагин не является AMD модулем и не возвращает какого-либо значения, то и передавать нечего.
+                    </p>
+                    <div class="alert alert-info">
+                        <strong>Ахтунг!</strong> Если вы используете jQueryUI диалог, 
+                        и на 7 из 10 страниц Вашего сайта вам нужно всего лишь чтоб он просто появлялся по центру, 
+                        то Вам совершенно необязательно тянуть лишние ~40kb кода отвечающие за перетаскивание и изменение размера. <br/>
+                        А вот на остальных 3х страницах, вы можете поступить так:
+                    </div>
+                    
+                    <div class="code">
+                        <pre class="code">
+
+
+<span class="IDENTIFIER">require</span>([<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">ui/draggable</span><span class="STRING_LITERAL">'</span>,<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">ui/resizable</span><span class="STRING_LITERAL">'</span>],<span class="keyword">function</span>(){
+    <span class="IDENTIFIER">$</span>(<span class="STRING_LITERAL">'</span><span class="STRING_LITERAL">#my-dialog</span><span class="STRING_LITERAL">'</span>)<span class="operator">.</span><span class="IDENTIFIER">dialog</span>({
+        <span class="IDENTIFIER">draggable</span><span class="operator">:</span> <span class="keyword">true</span>,
+        <span class="IDENTIFIER">resizable</span><span class="operator">:</span> <span class="keyword">true</span>
+    })
+})
+
+                        </pre>
+                    </div>
+                    
+                    <h2>
+                        Делаем свою сборку при помощи RequireJS <small>на примере better.js </small>
+                    </h2>
+                    <p>
+                        <ul>
+                            <li>
+                                Ставим NodeJS. Скачать можно <a target="_blank" href="http://nodejs.org/#download"> тут</a>
+                            </li>
+                            <li>
+                                заходим в папку DOCUMENT_ROOT/js
+                            </li>
+                            <li>
+                                запускаем билд: <code>node r.js -o app.build.js</code>
+                            </li>
+                            <li>
+                                читаем <a target="_blank" href="http://requirejs.org/docs/optimization.html"> руководство по сборке </a>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+       
+
+
+
+
+
+
+        
+    </body>
+</html>
