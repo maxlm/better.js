@@ -1,0 +1,17 @@
+<div>
+    <div data-dojo-attach-event="onclick:_onTitleClick, onkeydown:_onTitleKey"
+         class="dijitTitlePaneTitle" data-better-point="headerNode">
+        <div class="dijitTitlePaneTitleFocus">
+            <img src="" alt="" data-dojo-attach-point="arrowNode" class="dijitArrowNode"/>
+            <span data-dojo-attach-point="arrowNodeInner" class="dijitArrowNodeInner"></span>
+            <span data-better-point="titleNode" class="dijitTitlePaneTextNode"></span>
+        </div>
+    </div>
+    <div class="dijitTitlePaneContentOuter" data-better-point="toggleTransitionNode">
+        <div class="dijitReset" data-dojo-attach-point="wipeNode">
+            <div class="dijitTitlePaneContentInner" data-better-point="contentNode">
+                <!-- nested divs because wipeIn()/wipeOut() doesn't work right on node w/padding etc.  Put padding on inner div. -->
+            </div>
+        </div>
+    </div>
+</div>

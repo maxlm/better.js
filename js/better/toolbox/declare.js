@@ -5,7 +5,7 @@ define(function(){
      */
     function inherited(args){
         var name,caller, inheritedFrom;
-             caller = inherited.caller || arguments.callee.caller
+        caller = inherited.caller || arguments.callee.caller
         if(typeof(args) === 'string'){
             name = args;
             args = arguments[1];
@@ -25,14 +25,14 @@ define(function(){
      *  That is all for now...
      *  @author Murzik
      */
-     function declare(/* Constructor? */parent,/* Object */props) {
+    function declare(/* Constructor? */parent,/* Object */props) {
         var
             hasBase = typeof(parent) == 'function',
             base = hasBase? parent : function() {},
             classDeclaration = function() {
                 //similar to PHP5 __construct
                 if(this.__construct) {
-                        this.__construct.apply(this, arguments);
+                    this.__construct.apply(this, arguments);
                 }
             },
             protoChainBreak = function() {},
@@ -59,6 +59,6 @@ define(function(){
 
         return classDeclaration;
     }
-    
+
     return declare;
 });
