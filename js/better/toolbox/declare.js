@@ -13,8 +13,8 @@ define(function(){
             name = caller.__name__;
         }
         inheritedFrom = caller.__inherited__;
-        if(name && inheritedFrom){// maybe we need return statement here?
-            inheritedFrom.prototype[name].apply(this, args);
+        if(name && inheritedFrom){
+            return inheritedFrom.prototype[name].apply(this, args);
         }
     }
 
