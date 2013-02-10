@@ -1,23 +1,15 @@
-define(['better', 'better/Panel', 'text!better/templates/TitlePanel/default.html'], function ($, Panel, template) {
+define(['better', 'better/Panel', 'text!better/templates/TitlePanel/twitter.html'], function ($, Panel, template) {
 
     var TitlePanel
-
-    /*=== hack for phpstorm 4.0.1*/
-    /*=== Tell phpstorm that we declaring a class. Comment bellow gives us autocomplete in phpstorm */
-//        var TitlePanel = function(){
-//
-//        }
 
     /**
      * @class TitlePanel
      * @extends Panel
      */
-    TitlePanel = $.declare(Panel, /**@lends Panel*/{
+    TitlePanel = $.declare('better.TitlePanel', Panel, /**@lends Panel*/{
         //summary:
         //      User Interface component that contains fragment of HTML markup and has title
 
-
-        declaredClass:'better.TitlePanel',
         template:template,
         //contentNode: DOMElement wrapped with jQuery
         //      Represents TitlePanel content area
@@ -71,8 +63,6 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/default.html
             }
 
             this.onShow();
-//            this.toggleButtonNode.toggleClass("opened closed");
-//            this.headerNode.toggleClass("opened closed");
             this.toggleTransitionNode.slideDown('fast', $.proxy(function () {
                 //TitlePanel opened only when animation playback ended
                 this.opened = true;
@@ -85,8 +75,6 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/default.html
             }
             /*var classToApply = styleMapping["opened"]*/
             this.onHide();
-//            this.toggleButtonNode.toggleClass("opened closed");
-
             var self = this;
             this.toggleTransitionNode.slideUp('fast', function () {
                 self.headerNode.toggleClass("opened closed");

@@ -1,18 +1,13 @@
 define(['better','better/Panel','text!better/templates/tooltip/dijit.html','better/ui/position'],
        function($,Panel,template){
     var Tooltip
-    /*=== hack for phpstorm 4.0.1*/
-    /*=== Tell phpstorm that we declaring a class. Comment bellow gives us autocomplete in phpstorm */
-    //    var Tooltip = function(){
-    //
-    //    }
+
 
     /**
      * @class Tooltip
      * @extends Panel
      */
-    Tooltip = $.declare(Panel,/**@lends Tooltip */ {
-        declaredClass: 'better.Tooltip',
+    Tooltip = $.declare('better.Tooltip', Panel,/**@lends Tooltip */ {
         template: template,
         position: {},
         content: '',
@@ -35,7 +30,7 @@ define(['better','better/Panel','text!better/templates/tooltip/dijit.html','bett
                           right: 'left'
 
                       },
-                      cssClass
+                      cssClass;
                   if(e.horizontal !== 'center') {
                       cssClass = e.horizontal
                   } else if(e.vertical !== 'center') {
@@ -48,12 +43,13 @@ define(['better','better/Panel','text!better/templates/tooltip/dijit.html','bett
                   }
                   el.css(pos);
               }, this)
-          }
+          };
 
           this.inherited(arguments)
         },
         init: function() {
             this.domNode.css('display','none');
+            this.inherited(arguments);
         },
         show: function(/*String|Function*/content,/*DOMElement*/aroundNode, /*Object?*/position) {
             //summary:
@@ -90,14 +86,16 @@ define(['better','better/Panel','text!better/templates/tooltip/dijit.html','bett
             }
             this.domNode.position(position);
 
-            var self = this
+            var self = this;
+            this.onShow();
             this.domNode.fadeIn('fast', function(){
                 self.shown = true;
-                self.trigger('show')
+                self.onShowed();
             })
         },
         hide: function(){
             var self = this;
+            this.onHide();
             this.domNode.fadeOut('fast', function(){
                 self.shown = false
                 //ui.position workaround
@@ -110,7 +108,7 @@ define(['better','better/Panel','text!better/templates/tooltip/dijit.html','bett
                 if(self._removeClass){
                     self.domNode.removeClass(self._removeClass)
                 }
-                self.trigger('hide')
+                self.onHidden();
             })
         }
     })

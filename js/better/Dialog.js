@@ -12,8 +12,7 @@ define(['better', 'better/Panel','text!better/templates/dialog/twitter.html'],fu
      * @class Dialog
      * @extends Panel
      */
-      Dialog = $.declare(Panel,  /**@lends Dialog*/{
-        declaredClass: 'better.Dialog',
+      Dialog = $.declare('better.Dialog', Panel,  /**@lends Dialog*/{
         template: template,
         //contentNode: DOMElement wrapped with jQuery
         //             Represents Dialog content area

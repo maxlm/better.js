@@ -76,18 +76,12 @@ define(['better'], function ($) {
 
 
     var Widget
-    /*=== hack for phpstorm 4.0.1*/
-    /*=== Tell phpstorm that we declaring a class. Comment bellow gives us autocomplete in phpstorm */
-
-    // var Widget = function(){
-    // }
 
     /**
-     *@class Widget
+     * @class Widget
      * Base class for all widgets
      */
-    Widget = $.declare(null, { /**@lends Widget */
-    declaredClass:'better.Widget',
+    Widget = $.declare('better.Widget', null, { /**@lends Widget */
         id:'',
         template:'',
         domNode:null,
@@ -107,7 +101,7 @@ define(['better'], function ($) {
         initOrder: ['initView','initLogic'],
         __construct:function (/*String|DOMElement|jQuery*/node, /*Object?*/args) {
             //mix arguments into widget
-            $.extend(this, args);
+            $.extend(this, args); //todo: make deep copy? not sure
             //attach widget to DOM node
             this.domNode = $(node);
 
@@ -120,7 +114,7 @@ define(['better'], function ($) {
             //register widget instance in registry
             var reg = better.Widget.registry
             if (reg[this.id]) {
-                throw new Error("An object with id <" + this.id + "> already exists")
+                throw new Error("An object with id '" + this.id + "' already exists")
             } else {
                 reg[this.id] = this;
             }
