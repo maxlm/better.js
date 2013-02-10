@@ -1,5 +1,7 @@
 define(['better'], function ($) {
-    var wR = {}
+    var
+        wR            = {},
+        templateCache = {};
 
     function wId(/*String?*/baseName) {
         // summary:
@@ -9,6 +11,32 @@ define(['better'], function ($) {
             wR[baseName] = 0;
         }
         return baseName + '_' + wR[baseName]++;
+    }
+
+    function buildTemplate(/*Widget*/self, /*HTML*/template) {
+        //summary:
+        //      Build widget's template
+        //description:
+        //      Create HTMLFragment from string and cache it.
+        //      Cached HTMLFragment(Widget's template) will be used
+        //      on next instantiation of a widget with the same Widget.declaredClass
+        //      This technique gives us 20-25 times performance boost.
+        if(!self.declaredClass) {
+            throw new Error("Widget doen't have 'declaredClass' property. " +
+                "Please pass class name as a first parameter " +
+                "to toolbox/declare on class declaration"
+            );
+        }
+        if(self.ignoreTemplateCache) {
+            return $(template);
+        }
+        if(templateCache[self.declaredClass]){
+            return $(templateCache[self.declaredClass].cloneNode(true));
+        } else {
+            template = $(template);
+            templateCache[self.declaredClass] = template[0];
+            return template;
+        }
     }
 
     var attachEvent = function (/*Widget*/self, /*jQuery*/el, /*String*/eventDefinition) {
@@ -82,8 +110,28 @@ define(['better'], function ($) {
      * Base class for all widgets
      */
     Widget = $.declare('better.Widget', null, { /**@lends Widget */
+        //declaredClass: String
+        //      Class name of declared class.
+        //      filled  automatically if you passing className
+        //      as a first parameter in toolbox/declare.
+        //      If you don't - fill it manually.
+        //      better.js uses declaredClass property a lot
+        declaredClass: '',
         id:'',
         template:'',
+        //ignoreTemplateCache: Boolean
+        //      You will need set this to True if
+        //      you will try to instantiate the same widget with different templates.
+        //      For example:
+        //          You have two panels.
+        //          One with blue gradient and another with some fancy background image.
+        //          |
+        //          |   var bluePanel    = new Panel(domNode1,{template: blueGradient});
+        //          |   var fancyBgImage = new Panel(domNode2, {template: bgImgPanel});
+        //          |
+        //          If ignoreTemplateCache was'nt set to True, you will observe that both panels are blue
+        //
+        ignoreTemplateCache: false, //todo: add ability of template caching by theme&declaredClass: twitter.better.TitlePanel, dijit.better.TitlePanel etc
         domNode:null,
         contentNode:null,
         //templateInMarkup: Boolean
@@ -192,7 +240,7 @@ define(['better'], function ($) {
                 //              - skip original DOMElement replacement
 
                 var targetNode = this.domNode,
-                    tpl = $(this.template),
+                    tpl = buildTemplate(this, this.template)
                     inlineStyles = this.domNode.attr('style');
                 targetNode.replaceWith(tpl);
                 this.domNode = tpl;
