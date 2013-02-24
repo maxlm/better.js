@@ -1,11 +1,6 @@
 define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
 
     var StackViewAbstract;
-    /*=== hack for phpstorm 4.0.1*/
-    /*=== Tell phpstorm that we declaring a class. Comment bellow gives us autocomplete in phpstorm */
-//    var StackViewAbstract = function(){
-//
-//    }
 
     /**
      * @class StackContainer
@@ -17,7 +12,7 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
         if(items) {
             this.items = items;
         }
-    }
+    };
 
 
     StackContainer.prototype.items = [];
@@ -25,7 +20,7 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
 
     StackContainer.prototype.indexOf = function(/*Anything*/value) {
         return $.inArray(value, this.items)
-    }
+    };
 
     StackContainer.prototype.each = function(/*Callback*/cb, /*Object?*/scope) {
         //summary:
@@ -33,14 +28,14 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
         //          'this' keyword points to StackContainer instance by default
         scope = scope || this;
         $.each(this.items, $.proxy(cb, scope));
-    }
+    };
 
     StackContainer.prototype.next = function() {
         return step(this, true);
-    }
+    };
     StackContainer.prototype.prev = function() {
         return step(this);
-    }
+    };
 
     StackContainer.prototype.add = function(/*Anything*/ item) {
         //summary:
@@ -49,9 +44,11 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
         if(!this.currentItem) {
             this.currentItem = item;
         }
-    }
+    };
 
     StackContainer.prototype.remove = function(/*Anything*/ item) {
+        //summary:
+        //          Remove item from StackContainer
         var itemIdx = this.indexOf(item);
 
         if(-1 === itemIdx) {
@@ -68,20 +65,29 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
             //select previous item
             this.currentItem = this.items[Math.max(0, Math.min(itemIdx, this.items.length - 1) - 1)]
         }
-    }
+    };
 
     StackContainer.prototype.current = function(/*Anything?*/ item) {
+        //summary:
+        //          Acts as getter/setter of current item in container
         if(!arguments.length) {
-            return this.currentItem || this.items[0];
+            return this.currentItem;
         }
         var idx = this.indexOf(item);
         if(-1 === idx) {
-            var msg = "Item passed to StackContainer::setCurrent does not exist."+
+            var msg = "Item passed to StackContainer::current does not exist."+
                       " You must add item via StackContainer::add before setCurrent call";
             throw new Error(msg)
         }
         this.currentItem = this.items[idx]
-    }
+    };
+
+    StackContainer.prototype.clear = function() {
+        //summary:
+        //          Remove all items from container
+        this.items = [];
+        this.currentItem = undefined;
+    };
 
     function step(/*StackContainer*/self, /*Boolean?*/forward) {
         //summary:
@@ -122,8 +128,6 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
          __construct: function(/*String|DOMElement|jQuery*/node, /*Object?*/args) {
              this.stackContainer = new StackContainer();
              this.inherited(arguments)
-         },
-         init: function() {
          },
          next: function() {
              //summary:
