@@ -209,6 +209,15 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
              //     Method *MUST* hide widget that passed in 'from' parameter
              //     and show widget that passed in 'to' parameter
              throw new Error(this.declaredClass + "#_doTransition must be implemented");
+         },
+         destroy: function(){
+             //summary:
+             //     Destroy stacked view widget and all of it's children
+             this.stackContainer.each(function(idx, pane){
+                 pane.destroy();
+             });
+             this.stackContainer.clear();
+             this.remove();
          }
 
 
