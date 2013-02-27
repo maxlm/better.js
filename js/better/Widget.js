@@ -27,6 +27,7 @@ define(['better'], function ($) {
                 "to toolbox/declare on class declaration"
             );
         }
+
         if(self.ignoreTemplateCache) {
             return $(template);
         }
@@ -34,7 +35,7 @@ define(['better'], function ($) {
             return $(templateCache[self.declaredClass].cloneNode(true));
         } else {
             template = $(template);
-            templateCache[self.declaredClass] = template[0];
+            templateCache[self.declaredClass] = template[0].cloneNode(true);
             return template;
         }
     }
