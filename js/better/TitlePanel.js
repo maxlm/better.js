@@ -28,7 +28,7 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/twitter.html
         titleNode:null,
         //title: String.
         //       TitlePanel title
-        title:'',
+        title:'&nbsp;',
         //opened: Boolean.
         //        Indicates TitlePanel state (opened/closed)
         opened:true,
