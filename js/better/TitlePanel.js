@@ -51,6 +51,7 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/twitter.html
                 this.on('toggle', $.proxy(this.toggle, this));
             }
 
+            //fixme: this way a bit inconsistent& we can't use onShowed events
             if (this.opened) {
                 this.toggleTransitionNode.show();
             } else {
@@ -73,7 +74,7 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/twitter.html
             if (!this.opened) {
                 return;
             }
-            /*var classToApply = styleMapping["opened"]*/
+            //todo: maybe it makes sense to return deferreds
             this.onHide();
             var self = this;
             this.toggleTransitionNode.slideUp('fast', function () {
@@ -86,6 +87,13 @@ define(['better', 'better/Panel', 'text!better/templates/TitlePanel/twitter.html
         toggle:function () {
             //summary:
             //      Toggle TitlePanel content area visibility state
+
+            var event  = arguments[0];
+            if(event && event.preventDefault && !this.toggleable) {
+                //ok. we trapped here if TitlePanel#toggle called as an event handler.
+                //this code will prevent panel from toggle when it act's as a part of Accordion
+                return;
+            }
             if (this.opened) {
                 this.hide()
             } else {
