@@ -31,10 +31,16 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
     };
 
     StackContainer.prototype.next = function() {
-        return step(this, true);
+        //summary:
+        //          Get next item in stack
+        //          relative to currently selected item
+        return stepForward(this);
     };
     StackContainer.prototype.prev = function() {
-        return step(this);
+        //summary:
+        //          Get previous item in stack
+        //          relative to currently selected item
+        return stepBackward(this);
     };
 
     StackContainer.prototype.add = function(/*Anything*/ item) {
@@ -103,7 +109,19 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
 
         return self.currentItem;
     }
-//====end of StackContainer declaration====//
+
+    function stepForward(/*StackContainer*/self) {
+        //summary:
+        //          Synthatic sugar for 'step'
+        return step(self, true);
+    }
+
+    function stepBackward(/*StackContainer*/ self) {
+        //summary:
+        //          Synthatic sugar for 'step'
+        return step(self,false);
+    }
+    //====end of StackContainer declaration====//
 
     /**
      * @class StackViewAbstract
