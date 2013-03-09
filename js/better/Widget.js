@@ -40,22 +40,23 @@ define(['better'], function ($) {
         }
     }
 
-    var attachEvent = function (/*Widget*/self, /*jQuery*/el, /*String*/eventDefinition) {
+    var attachEvent = function (/*Widget*/self, /*DomNode*/el, /*String*/eventDefinition) {
         //summary:
         //          Bind Widget methods as an event handlers for given DOMElement wrapped with jQuery
 
         //get comma-separated event definitions.
         //Example: <a data-better-event="click: hide, mouseover: doUsefulStuff"
-        var defs = eventDefinition.split(','),
+        var
+            defs = eventDefinition.split(','),
             parts = [],
             evtName = "",
             widgetMethodName = "";
+
         $.each(defs, function (idx, definition) {
             // split definition to [DOMEventName,DOMEventHandler] pair
-            parts = definition.split(':'),
-            evtName = $.trim(parts[0]),
+            parts = definition.split(':');
+            evtName = $.trim(parts[0]);
             widgetMethodName = $.trim(parts[1]);
-
 
             //check for handler existence in Widget
             if (!self[widgetMethodName]) {
@@ -68,26 +69,32 @@ define(['better'], function ($) {
                 }))
             }
             // bind Widget method to DOMElement event
-            el.on(evtName, $.proxy(self[widgetMethodName], self))
+            $(el).on(evtName, $.proxy(self[widgetMethodName], self))
         })
     }
 
-    var attachPoint = function (/*Widget*/ self, /*jQuery*/ el, /*String*/ pointList) {
+    var attachPoint = function (/*Widget*/ self, /*DomNode*/ el, /*String*/ pointList) {
         //summary:
         //          Bind DOMElement references wrapped with jQuery to Widget
         $.each(pointList.split(','), function (idx, point) {
-            self[point] = el
+            self[point] = $(el)
         })
     }
 
     var processDataPoints = function (/*Widget*/self) {
         //summary:
         //          Process data-better-event && data-better-point attribs
-        self.domNode.find('*').andSelf().each(function () {
-            var el = $(this),
-                data = el.data(),
-                evt = data.betterEvent,
-                point = data.betterPoint;
+
+
+        //self.domNode.find('*').andSelf() works 12-16 times slower than native code
+        var
+            elems = self.domNode[0].getElementsByTagName('*'),
+            j, evt, point,el;
+
+        for(j = elems.length -1; j >= 0; j--) {
+            el = elems[j];
+            evt = el.getAttribute('data-better-event');
+            point = el.getAttribute('data-better-point');
 
             if (evt) {
                 attachEvent(self, el, evt)
@@ -96,7 +103,7 @@ define(['better'], function ($) {
             if (point) {
                 attachPoint(self, el, point)
             }
-        })
+        }
     }
 
     var createEventNamespace = function (self, eventName) {
@@ -111,13 +118,13 @@ define(['better'], function ($) {
      * Base class for all widgets
      */
     Widget = $.declare('better.Widget', null, { /**@lends Widget */
-        //declaredClass: String
-        //      Class name of declared class.
-        //      filled  automatically if you passing className
-        //      as a first parameter in toolbox/declare.
-        //      If you don't - fill it manually.
-        //      better.js uses declaredClass property a lot
-        declaredClass: '',
+    //declaredClass: String
+    //      Class name of declared class.
+    //      filled  automatically if you passing className
+    //      as a first parameter in toolbox/declare.
+    //      If you don't - fill it manually.
+    //      better.js uses declaredClass property a lot
+    declaredClass: '',
         id:'',
         template:'',
         //ignoreTemplateCache: Boolean
@@ -242,7 +249,7 @@ define(['better'], function ($) {
 
                 var targetNode = this.domNode,
                     tpl = buildTemplate(this, this.template)
-                    inlineStyles = this.domNode.attr('style');
+                inlineStyles = this.domNode.attr('style');
                 targetNode.replaceWith(tpl);
                 this.domNode = tpl;
                 if(inlineStyles) {
@@ -267,8 +274,8 @@ define(['better'], function ($) {
             if(keepMarkup) {
                 //keep markup in it's original state
                 this.domNode.find('*')
-                            .andSelf()
-                            .unbind()
+                    .andSelf()
+                    .unbind()
             } else {
                 this.domNode.remove();
             }
