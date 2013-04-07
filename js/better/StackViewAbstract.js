@@ -135,17 +135,30 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
          // description:
          //		A container for widgets (ContentPanes, for example) That displays
          //		only one Widget at a time.
+         //     All children *MUST BE* layed within containerNode
          //
          //
          //		Base class for Tabs, Accordion, Show, etc.
 
 
          panes: [],
-         //stackContainer: StackContainer holds all stacked widgets
+         //stackContainer: StackContainer
+         //     holds all stacked widgets
          stackContainer: {},
+         //containerNode: DOMElement wrapped with jQuery
+         //     container node for child widgets
+         containerNode: null,
          __construct: function(/*String|DOMElement|jQuery*/node, /*Object?*/args) {
              this.stackContainer = new StackContainer();
-             this.inherited(arguments)
+             this.inherited(arguments);
+
+             if(!this.containerNode) {
+                 //as far as widget rendered,
+                 //we can see whether we need to bind containerNode.
+                 //by default, if StackView widget doesn't declares it's own containerNode
+                 //we consider that domNode will serve as containerNode
+                 this.containerNode = this.domNode
+             }
          },
          next: function() {
              //summary:
