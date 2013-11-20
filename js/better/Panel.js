@@ -1,16 +1,11 @@
 define(['better', 'better/Widget', 'better/ui/position'], function ($, Widget) {
     var Panel
 
-    /*=== hack for phpstorm 4.0.1*/
-    /*=== Tell phpstorm that we declaring a class. Comment bellow gives us autocomplete in phpstorm */
-    // var Panel = function(){
-    // }
-
     /**
      * @class Panel
      * @extends Widget
      */
-    Panel = $.declare(Widget, /**@lends Panel */ {
+    Panel = $.declare('better.Panel', Widget, /**@lends Panel */ {
         //summary:
         //           Widget that holds fragment of HTML markup.
         //           Just Like common DIV tag but with advanced JavaScript API.
@@ -28,7 +23,6 @@ define(['better', 'better/Widget', 'better/ui/position'], function ($, Widget) {
         //           Panel do this for developer in simple and extensible way
 
 
-        declaredClass:'better.Panel',
         //loadingMsg: String|HTML
         //      Message and/or image that indicates Panel 'loading' state during http request
         loadingMsg:'<div class="state-loading"></div>',

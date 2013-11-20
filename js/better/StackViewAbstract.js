@@ -150,8 +150,11 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
          containerNode: null,
          __construct: function(/*String|DOMElement|jQuery*/node, /*Object?*/args) {
              this.stackContainer = new StackContainer();
-             this.inherited(arguments);
 
+
+
+             this.manualInit = true;
+             this.inherited(arguments);
              if(!this.containerNode) {
                  //as far as widget rendered,
                  //we can see whether we need to bind containerNode.
@@ -159,6 +162,8 @@ define(['better', 'better/Widget'], function(/*jQuery*/$, Widget){
                  //we consider that domNode will serve as containerNode
                  this.containerNode = this.domNode
              }
+             this.init();
+
          },
          next: function() {
              //summary:

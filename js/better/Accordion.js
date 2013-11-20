@@ -5,28 +5,59 @@ define(['better', 'better/StackViewAbstract'], function(/*jQuery*/$, StackView){
      * @class Accordion
      * @extends StackViewAbstract
      */
-    Accordion = $.declare(StackView , { /**@lends Accordion*/
-        declaredClass: 'better.Accordion',
+    Accordion = $.declare('better.Accordion',StackView , { /**@lends Accordion*/
+        //panelWidget: String|Constructor
+        //      widget class that will act as a Accordion pane
+        //      Accordion expects TitlePanel or it's ancestor as a panelWidget
         panelWidget: 'better.TitlePanel',
         init: function() {
-            if(this.templateInMarkup){
-              this._instantiateWidgetsFromMarkup();
+            if(!$.isFunction(this.panelWidget) || !this.panelWidget.prototype.declaredClass) {
+                this._getCtor();
             }
+            //todo: add ability to instantiate panels from properties-object passed into constructor
+            this._instantiateWidgetsFromMarkup();
 
-            this.domNode.on('better.TitlePanel.toggle', $.proxy(this._onChildToggle,this))
+            var toggleEvt = this.panelWidget.prototype.declaredClass + ".toggle";
+            this.domNode.on(toggleEvt, $.proxy(this._onChildToggle,this))
         },
         addChild: function(/*TitlePanel*/ child) {
-
+            //fixme: i'm not sure how implement it.
+            //fixme: Too much options: TitlePanel, DOMElement with props object, props object without DOMElement
+        },
+        __construct: function(){
+            this.inherited(arguments);
         },
         _doTransition:function(/*TitlePanel*/from, /*TitlePanel*/to) {
+            //both 'from' and 'to' could be jQuery objects
+            // because it implements show/hide methods
+            //but I'm not sure how we can use that
             from.hide();
             to.show();
         },
-        destroy: function(){
-            this.stackContainer.each(function(idx, pane){
-                pane.destroy();
-            })
-            this.remove();
+        _getCtor: function() {
+            //summary:
+            //      Get panel widget constructor.
+            //description:
+            //      Accordion assumes that panelWidget is a Constructor function,
+            //      but user also can provide string with widget class name.
+            //      In that case we must get Constructor function by class name
+            //internal:
+            //      Shortcut method. It's goal - increase readability.
+            //      Used in Accordion#init().
+            if($.type(this.panelWidget) === 'string'){
+                var widgetClazz = $.declare.getDeclaredClass(this.panelWidget);
+                if(!widgetClazz) {
+                    throw new Error(this.panelWidget + " class does not exists. " +
+                        "Probably, problem is in missing dependency" +
+                        " or in class name typo");
+                }
+                this.panelWidget = widgetClazz;
+            } else {
+                throw new Error("panelWidget must be a widget constructor " +
+                                "or string that represents widget class name."+
+                                "But " + $.type(this.panelWidget) + " given"
+                )
+            }
         },
         _onChildToggle:function(/*Event*/event){
             //summary:
@@ -51,26 +82,35 @@ define(['better', 'better/StackViewAbstract'], function(/*jQuery*/$, StackView){
             //      If we have child templates in markup - parse them.
             //      Well, actually - instantiate TitlePanel widgets.
 
-
-
-
             var
                 self = this,
                 defaultParams = {
                     toggleable: false,
-                    templateInMarkup: true,
+                    templateInMarkup: this.templateInMarkup || false,
                     opened: false
-                };
+                },
+                params = {};
 
-            //Accordion doen't care about template. Accordion.panelWidget do.
-            //make sure that panelWidget class know how to work with markup provided
-            this.domNode.children().each(function(idx, child){
-                if($.type(self.panelWidget) === 'string'){
-                    //todo: get the constructor object by class name
-                } else if($.type(self.panelWidget) === 'function' && self.panelWidget.prototype.declaredClass){
-                    var childWidget = new self.panelWidget(child, defaultParams);
-                    self.stackContainer.add(childWidget);
+            //Accordion doesn't care about template. Accordion.panelWidget do.
+            //make sure that panelWidget class know how to work with provided markup
+
+            this.containerNode.children().each(function(idx, child){
+                params = child.getAttribute('data-better-params');
+                if(params) {
+                    try {
+                        params = $.parseJSON(params);
+                    } catch(err) {
+                        throw new Error("Failed to parse params. " +
+                                        "Seems that data-better-params " +
+                                        "holding malformed JSON: " + params +
+                                        " see http://api.jquery.com/jQuery.parseJSON/" +
+                                        " Especially section about malformed JSON"
+                                  );
+                    }
                 }
+                params = $.extend({},defaultParams, params||{});
+                params.toggleable = false;
+                self.stackContainer.add(new self.panelWidget(child, params));
             })
         }
     })
